@@ -5,7 +5,7 @@ import App from './App.tsx'
 
 import { Log } from './utils/logger';
 
-Log('Startup', 'info', 'App Initialization', 'Application starting up');
+Log('config', 'info', 'App Initialization', 'Application starting up');
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -1,7 +1,8 @@
 export type LogLevel = 'info' | 'warn' | 'error';
+export type LogStack = 'api' | 'component' | 'hook' | 'page' | 'state' | 'style' | 'auth' | 'config' | 'middleware' | 'utils';
 
 export const Log = async (
-  stack: string,
+  stack: LogStack,
   level: LogLevel,
   packageName: string,
   message: string
@@ -9,6 +10,12 @@ export const Log = async (
   // Validate level
   const validLevels: LogLevel[] = ['info', 'warn', 'error'];
   if (!validLevels.includes(level)) {
+    return;
+  }
+
+  // Validate stack
+  const validStacks: LogStack[] = ['api', 'component', 'hook', 'page', 'state', 'style', 'auth', 'config', 'middleware', 'utils'];
+  if (!validStacks.includes(stack)) {
     return;
   }
 

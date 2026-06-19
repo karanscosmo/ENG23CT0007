@@ -11,22 +11,22 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    Log('API Request', 'info', 'apiClient', `Starting request to ${config.url}`);
+    Log('api', 'info', 'apiClient', `Starting request to ${config.url}`);
     return config;
   },
   (error) => {
-    Log('API Request Error', 'error', 'apiClient', `Request error: ${error.message}`);
+    Log('api', 'error', 'apiClient', `Request error: ${error.message}`);
     return Promise.reject(error);
   }
 );
 
 apiClient.interceptors.response.use(
   (response) => {
-    Log('API Response', 'info', 'apiClient', `Successful response from ${response.config.url}`);
+    Log('api', 'info', 'apiClient', `Successful response from ${response.config.url}`);
     return response;
   },
   (error) => {
-    Log('API Response Error', 'error', 'apiClient', `Response error from ${error.config?.url}: ${error.message}`);
+    Log('api', 'error', 'apiClient', `Response error from ${error.config?.url}: ${error.message}`);
     return Promise.reject(error);
   }
 );

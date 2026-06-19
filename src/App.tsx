@@ -14,7 +14,7 @@ const theme = createTheme({
 function RouteLogger() {
   const location = useLocation();
   useEffect(() => {
-    Log('Route Load', 'info', 'Router', `Navigated to ${location.pathname}`);
+    Log('page', 'info', 'Router', `Navigated to ${location.pathname}`);
   }, [location]);
   return null;
 }
