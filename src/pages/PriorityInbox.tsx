@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Typography, Card, CardContent, CircularProgress, Alert, FormControl, InputLabel, Select, MenuItem, Chip, SelectChangeEvent } from '@mui/material';
+import { Box, Typography, Card, CardContent, CircularProgress, Alert, FormControl, InputLabel, Select, MenuItem, Chip } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material';
 import { usePriorityNotifications } from '../hooks/usePriorityNotifications';
 import { useViewedNotifications } from '../hooks/useViewedNotifications';
-import { NotificationType } from '../types';
+import type { NotificationType } from '../types';
 import { Log } from '../utils/logger';
 import { calculatePriority } from '../utils/priorityCalculator';
 

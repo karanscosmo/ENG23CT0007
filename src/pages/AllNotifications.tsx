@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Box, Typography, Card, CardContent, CircularProgress, Alert, Pagination, FormControl, InputLabel, Select, MenuItem, Chip, SelectChangeEvent } from '@mui/material';
+import { Box, Typography, Card, CardContent, CircularProgress, Alert, Pagination, FormControl, InputLabel, Select, MenuItem, Chip } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material';
 import { useNotifications } from '../hooks/useNotifications';
 import { useViewedNotifications } from '../hooks/useViewedNotifications';
-import { NotificationType } from '../types';
+import type { NotificationType } from '../types';
 import { Log } from '../utils/logger';
 
 const AllNotifications: React.FC = () => {
@@ -24,7 +25,7 @@ const AllNotifications: React.FC = () => {
     Log('page', 'info', 'AllNotifications', `Filter changed to ${newFilter}`);
   };
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
     Log('page', 'info', 'AllNotifications', `Pagination changed to page ${value}`);
   };

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { fetchNotifications } from '../api/notifications';
-import { AppNotification, NotificationType } from '../types';
+import type { AppNotification, NotificationType } from '../types';
 import { MinHeap } from '../utils/MinHeap';
 import { Log } from '../utils/logger';
 

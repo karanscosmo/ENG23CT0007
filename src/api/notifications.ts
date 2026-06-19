@@ -1,5 +1,5 @@
 import { apiClient } from './index';
-import { AppNotification, FetchNotificationsParams, PaginatedResponse } from '../types';
+import type { AppNotification, FetchNotificationsParams, PaginatedResponse } from '../types';
 
 export const fetchNotifications = async (
   params: FetchNotificationsParams

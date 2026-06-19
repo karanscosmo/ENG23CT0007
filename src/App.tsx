@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation, Link } from 'react-router-do
 import { useEffect, useState } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemIcon, ListItemText, Box, IconButton } from '@mui/material';
+import { AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import InboxIcon from '@mui/icons-material/Inbox';
@@ -42,17 +42,21 @@ function NavigationWrapper({ children }: { children: React.ReactNode }) {
     <div>
       <Toolbar />
       <List>
-        <ListItem button component={Link} to="/" onClick={() => setMobileOpen(false)}>
-          <ListItemIcon>
-            <NotificationsIcon />
-          </ListItemIcon>
-          <ListItemText primary="All Notifications" />
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/" onClick={() => setMobileOpen(false)}>
+            <ListItemIcon>
+              <NotificationsIcon />
+            </ListItemIcon>
+            <ListItemText primary="All Notifications" />
+          </ListItemButton>
         </ListItem>
-        <ListItem button component={Link} to="/priority" onClick={() => setMobileOpen(false)}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Priority Inbox" />
+        <ListItem disablePadding>
+          <ListItemButton component={Link} to="/priority" onClick={() => setMobileOpen(false)}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary="Priority Inbox" />
+          </ListItemButton>
         </ListItem>
       </List>
     </div>

@@ -1,4 +1,4 @@
-import { AppNotification } from '../types';
+import type { AppNotification } from '../types';
 import { Log } from './logger';
 
 const WEIGHTS: Record<string, number> = {

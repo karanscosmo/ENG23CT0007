@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { fetchNotifications } from '../api/notifications';
-import { AppNotification, FetchNotificationsParams } from '../types';
+import type { AppNotification, FetchNotificationsParams } from '../types';
 import { Log } from '../utils/logger';
 
 export const useNotifications = (initialParams: FetchNotificationsParams = {}) => {
