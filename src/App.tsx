@@ -1,14 +1,13 @@
-import { BrowserRouter, Routes, Route, useLocation, Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { BrowserRouter, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { AppBar, Toolbar, Typography, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import InboxIcon from '@mui/icons-material/Inbox';
+import { AppRoutes } from './routes/AppRoutes';
 import { Log } from './utils/logger';
-import AllNotifications from './pages/AllNotifications';
-import PriorityInbox from './pages/PriorityInbox';
 
 const theme = createTheme({
   palette: {
@@ -22,14 +21,6 @@ const theme = createTheme({
   },
 });
 
-function RouteLogger() {
-  const location = useLocation();
-  useEffect(() => {
-    Log('page', 'info', 'Router', `Navigated to ${location.pathname}`);
-  }, [location]);
-  return null;
-}
-
 function NavigationWrapper({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const drawerWidth = 240;
@@ -41,9 +32,9 @@ function NavigationWrapper({ children }: { children: React.ReactNode }) {
   const drawer = (
     <div>
       <Toolbar />
-      <List>
+      <List role="navigation" aria-label="Main navigation">
         <ListItem disablePadding>
-          <ListItemButton component={Link} to="/" onClick={() => setMobileOpen(false)}>
+          <ListItemButton component={Link} to="/" onClick={() => setMobileOpen(false)} aria-label="Navigate to All Notifications">
             <ListItemIcon>
               <NotificationsIcon />
             </ListItemIcon>
@@ -51,7 +42,7 @@ function NavigationWrapper({ children }: { children: React.ReactNode }) {
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton component={Link} to="/priority" onClick={() => setMobileOpen(false)}>
+          <ListItemButton component={Link} to="/priority" onClick={() => setMobileOpen(false)} aria-label="Navigate to Priority Inbox">
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
@@ -68,19 +59,19 @@ function NavigationWrapper({ children }: { children: React.ReactNode }) {
         <Toolbar>
           <IconButton
             color="inherit"
-            aria-label="open drawer"
+            aria-label="Open navigation drawer"
             edge="start"
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="h1">
             AffordMed Notification Center
           </Typography>
         </Toolbar>
       </AppBar>
-      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
+      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} aria-label="mailbox folders">
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -98,7 +89,7 @@ function NavigationWrapper({ children }: { children: React.ReactNode }) {
           {drawer}
         </Drawer>
       </Box>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }} role="main">
         <Toolbar />
         {children}
       </Box>
@@ -107,16 +98,16 @@ function NavigationWrapper({ children }: { children: React.ReactNode }) {
 }
 
 function App() {
+  useEffect(() => {
+    Log('frontend', 'info', 'config', 'Application startup complete');
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
-        <RouteLogger />
         <NavigationWrapper>
-          <Routes>
-            <Route path="/" element={<AllNotifications />} />
-            <Route path="/priority" element={<PriorityInbox />} />
-          </Routes>
+          <AppRoutes />
         </NavigationWrapper>
       </BrowserRouter>
     </ThemeProvider>

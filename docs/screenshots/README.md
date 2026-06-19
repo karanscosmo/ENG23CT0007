@@ -9,3 +9,4 @@ Please capture the following screenshots and place them in the `/screenshots` di
 - [ ] `filtering.png`: The UI state when a filter dropdown is open or actively applied.
 - [ ] `pagination.png`: The pagination controls actively working at the bottom of the screen.
 - [ ] `error-state.png`: The graceful error UI when the API fails to load notifications.
+- [ ] viewed-notifications.png: The visual distinction of viewed vs unread notifications.

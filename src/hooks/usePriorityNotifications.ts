@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchNotifications } from '../api/notifications';
-import type { AppNotification, NotificationType } from '../types';
-import { MinHeap } from '../utils/MinHeap';
+import { NotificationService } from '../api/notificationApi';
+import type { AppNotification, NotificationType } from '../types/notification';
+import { MinHeap } from '../utils/minHeap';
 import { Log } from '../utils/logger';
 
 export const usePriorityNotifications = (topN: number = 10, filterType?: NotificationType | 'All') => {
@@ -13,8 +13,8 @@ export const usePriorityNotifications = (topN: number = 10, filterType?: Notific
     setLoading(true);
     setError(null);
     try {
-      // Simulate receiving a stream by fetching a large batch
-      const response = await fetchNotifications({ limit: 100, notification_type: filterType === 'All' ? undefined : filterType });
+      Log('frontend', 'debug', 'hook', 'Fetching priority notifications');
+      const response = await NotificationService.getPaginatedNotifications({ limit: 100, notification_type: filterType === 'All' ? undefined : filterType });
       
       if (!response.data || response.data.length === 0) {
         throw new Error('Empty dataset received');
@@ -27,7 +27,7 @@ export const usePriorityNotifications = (topN: number = 10, filterType?: Notific
     } catch (err: any) {
       const errMsg = err.message || 'Unknown error occurred';
       setError(errMsg);
-      Log('hook', 'error', 'usePriorityNotifications', `Error fetching priority notifications: ${errMsg}`);
+      Log('frontend', 'error', 'hook', `Error fetching priority notifications: ${errMsg}`);
     } finally {
       setLoading(false);
     }

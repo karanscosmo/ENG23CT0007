@@ -1,4 +1,4 @@
-import type { AppNotification } from '../types';
+import type { AppNotification } from '../types/notification';
 import { calculatePriority } from './priorityCalculator';
 
 export class MinHeap {
@@ -46,10 +46,31 @@ export class MinHeap {
     }
   }
 
+  public size() {
+    return this.heap.length;
+  }
+
+  public peek() {
+    return this.heap[0];
+  }
+
+  public removeMin() {
+    if (this.heap.length === 0) return null;
+    if (this.heap.length === 1) return this.heap.pop();
+    const min = this.heap[0];
+    this.heap[0] = this.heap.pop()!;
+    this.heapifyDown(0);
+    return min;
+  }
+
+  public replaceMin(item: { notification: AppNotification; score: number }) {
+    this.heap[0] = item;
+    this.heapifyDown(0);
+  }
+
   public insert(notification: AppNotification) {
     const score = calculatePriority(notification);
 
-    // Filter duplicates before insertion (based on ID)
     if (this.heap.some(item => item.notification.id === notification.id)) {
         return;
     }
@@ -58,13 +79,11 @@ export class MinHeap {
       this.heap.push({ notification, score });
       this.heapifyUp(this.heap.length - 1);
     } else if (score > this.heap[0].score) {
-      this.heap[0] = { notification, score };
-      this.heapifyDown(0);
+      this.replaceMin({ notification, score });
     }
   }
 
   public getTopNotifications(): AppNotification[] {
-    // Return sorted by highest priority first
     return [...this.heap]
       .sort((a, b) => b.score - a.score)
       .map(item => item.notification);

@@ -1,33 +1,24 @@
-export type LogLevel = 'info' | 'warn' | 'error';
-export type LogStack = 'api' | 'component' | 'hook' | 'page' | 'state' | 'style' | 'auth' | 'config' | 'middleware' | 'utils';
+import { LoggingApi } from '../api/loggingApi';
+
+export type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'fatal';
+export type LogStack = 'frontend';
+export type LogPackage = 'api' | 'component' | 'hook' | 'page' | 'state' | 'style' | 'auth' | 'config' | 'middleware' | 'utils';
 
 export const Log = async (
   stack: LogStack,
   level: LogLevel,
-  packageName: string,
+  packageName: LogPackage,
   message: string
 ): Promise<void> => {
-  // Validate level
-  const validLevels: LogLevel[] = ['info', 'warn', 'error'];
-  if (!validLevels.includes(level)) {
-    return;
-  }
+  const validLevels: LogLevel[] = ['debug', 'info', 'warn', 'error', 'fatal'];
+  if (!validLevels.includes(level)) return;
 
-  // Validate stack
-  const validStacks: LogStack[] = ['api', 'component', 'hook', 'page', 'state', 'style', 'auth', 'config', 'middleware', 'utils'];
-  if (!validStacks.includes(stack)) {
-    return;
-  }
+  if (stack !== 'frontend') return;
 
-  // Validate packageName
-  if (!packageName || typeof packageName !== 'string' || packageName.trim() === '') {
-    return;
-  }
+  const validPackages: LogPackage[] = ['api', 'component', 'hook', 'page', 'state', 'style', 'auth', 'config', 'middleware', 'utils'];
+  if (!validPackages.includes(packageName)) return;
 
   try {
-    const token = localStorage.getItem('auth_token') || 'dummy-bearer-token';
-    const logUrl = import.meta.env.VITE_LOG_API_URL || 'http://localhost:8080/evaluation-service/logs';
-
     const payload = {
       stack,
       level,
@@ -35,15 +26,7 @@ export const Log = async (
       message,
       timestamp: new Date().toISOString(),
     };
-
-    await fetch(logUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(payload),
-    });
+    await LoggingApi.log(payload);
   } catch (error) {
     // Fail gracefully without console logging
   }

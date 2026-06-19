@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchNotifications } from '../api/notifications';
-import type { AppNotification, FetchNotificationsParams } from '../types';
+import { NotificationService } from '../api/notificationApi';
+import type { AppNotification, FetchNotificationsParams } from '../types/notification';
 import { Log } from '../utils/logger';
 
 export const useNotifications = (initialParams: FetchNotificationsParams = {}) => {
@@ -9,16 +9,14 @@ export const useNotifications = (initialParams: FetchNotificationsParams = {}) =
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  // Store the current params to allow safe refetching
   const [params, setParams] = useState<FetchNotificationsParams>(initialParams);
 
   const fetchFilters = useCallback(async (currentParams: FetchNotificationsParams) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetchNotifications(currentParams);
+      const response = await NotificationService.getPaginatedNotifications(currentParams);
       
-      // Filter out duplicate IDs to handle API anomalies
       const uniqueNotifications = Array.from(new Map(response.data.map(n => [n.id, n])).values());
       
       setNotifications(uniqueNotifications);
@@ -26,7 +24,7 @@ export const useNotifications = (initialParams: FetchNotificationsParams = {}) =
     } catch (err: any) {
       const errMsg = err.message || 'Unknown error occurred';
       setError(errMsg);
-      Log('hook', 'error', 'useNotifications', `Error fetching notifications: ${errMsg}`);
+      Log('frontend', 'error', 'hook', `Error fetching notifications: ${errMsg}`);
     } finally {
       setLoading(false);
     }
